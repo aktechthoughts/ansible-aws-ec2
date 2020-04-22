@@ -200,10 +200,6 @@
       shell: |
          docker pull "{{ default_image }}"  
 
-    - name: "Remote Host : Run default Docker image."
-      shell: |
-         docker run -p 8080:8080 -t -d "{{ default_image }}"
-
     - name: Add the user 'ubuntu' to docker group.
       user:
          name: ubuntu
@@ -211,12 +207,9 @@
          uid: 1000
          group: docker
 
-
     - name: "Remote Host : Run default Docker image."
       shell: |
          docker run -p 8080:8080 -t -d "{{ default_image }}"
-
-
 
 # Terminate ec2 instance after docker is finished.
 
