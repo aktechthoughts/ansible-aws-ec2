@@ -112,7 +112,7 @@
          volumes:
             - device_name: /dev/xvda
               volume_type: gp2
-              volume_size: 8
+              volume_size: 20
               delete_on_termination: true
          monitoring: yes
          vpc_subnet_id: "{{ aws_sub_id }}"
@@ -175,7 +175,7 @@
 
     - name: "Remote Host : Install required system packages"
       apt: name={{ item }} state=latest update_cache=yes
-      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']   
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'openjdk-9-jdk-headless']   
 
 
     - name: "Remote Host : Add Docker GPG apt Key"
@@ -191,6 +191,15 @@
 
     - name: "Remote Host : Update apt and install docker-ce"
       apt: update_cache=yes name=docker-ce state=latest    
+
+    - name: "Remote Host : Add Docker-compose Repository"
+      shell: |
+        curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose \
+        && chmod +x /usr/local/bin/docker-compose
+
+    - name: "Remote Host : Update apt and install docker-ce"
+      apt: update_cache=yes name=docker-ce state=latest    
+
 
     - name: "Remote Host : Install Docker Module for Python"
       pip:
