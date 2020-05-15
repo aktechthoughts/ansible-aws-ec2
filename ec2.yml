@@ -110,10 +110,10 @@
          instance_tags:
             Name: AWS-Ansible
          volumes:
-            - device_name: /dev/xvda
+            - device_name: /dev/sdb
               volume_type: gp2
-              volume_size: 20
-              delete_on_termination: true
+              volume_size: "{{ aws_vol_size }}"
+              delete_on_termination: false
          monitoring: yes
          vpc_subnet_id: "{{ aws_sub_id }}"
          assign_public_ip: yes
